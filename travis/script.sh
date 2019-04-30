@@ -105,8 +105,8 @@ if [ -n "$ROOT" -a -n "$HACKAGE_AUTH" ]; then
       curl -X PUT '$URL' \
         -H 'Content-Type: application/x-tar' -H 'Content-Encoding: gzip' \
         -u '$HACKAGE_AUTH' --data-binary '@$pkgid-docs.tar.gz'
-  fi
 EOF
+  fi
 fi
 
 end_steps
