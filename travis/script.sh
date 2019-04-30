@@ -100,13 +100,12 @@ fi
 
 if [ -n "$ROOT" -a -n "$HACKAGE_AUTH" ]; then
   URL="https://hackage.haskell.org/package/$pkgid/candidate/docs"
-  if [ -n "$TRAVIS_TAG" ]; then
-    URL="https://hackage.haskell.org/package/$pkgid/docs"
+  if [ ! -n "$TRAVIS_TAG" ]; then
+    step "Uploading package documentation to hackage" << EOF
+      curl -X PUT '$URL' \
+        -H 'Content-Type: application/x-tar' -H 'Content-Encoding: gzip' \
+        -u '$HACKAGE_AUTH' --data-binary '@$pkgid-docs.tar.gz'
   fi
-  step "Uploading package documentation to hackage" << EOF
-    curl -X PUT '$URL' \
-      -H 'Content-Type: application/x-tar' -H 'Content-Encoding: gzip' \
-      -u '$HACKAGE_AUTH' --data-binary '@$pkgid-docs.tar.gz'
 EOF
 fi
 
